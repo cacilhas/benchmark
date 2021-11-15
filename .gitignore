@@ -1,4 +1,6 @@
 .*
-*.so
+*.cmi
+*.cmx
+*.o
 sort_*
 !.gitignore

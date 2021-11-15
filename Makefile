@@ -3,7 +3,7 @@ SOURCES = $(wildcard sort.*)
 .PHONY: all benchmark clean mrproper
 
 
-all: sort_gcc sort_llvm sort_go
+all: sort_gcc sort_llvm sort_go sort_ocaml
 
 
 benchmark: all $(SOURCES)
@@ -11,16 +11,17 @@ benchmark: all $(SOURCES)
 		./sort_gcc \
 		./sort_llvm \
 		./sort_go \
+		./sort_ocaml \
 		./sort.py \
 		./sort.rb
 
 
 clean:
-	rm -f *.o
+	rm -f *.cmi *.cmx *.o
 
 
 mrproper: clean
-	rm -f sort_gcc sort_llvm sort_go
+	rm -f sort_gcc sort_llvm sort_go sort_ocaml
 
 
 sort_gcc: sort.c
@@ -31,3 +32,6 @@ sort_llvm: sort.c
 
 sort_go: sort.go
 	go build -o $@ $<
+
+sort_ocaml: sort.ml
+	ocamlopt -o $@ $<
