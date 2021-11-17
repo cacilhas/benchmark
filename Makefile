@@ -7,7 +7,7 @@ all: sort_gcc sort_llvm sort_go sort_ocaml sort_nelua
 
 
 benchmark: all $(SOURCES)
-	hyperfine --warmup=1 --style=color \
+	hyperfine --ignore-failure --warmup=1 --style=color \
 		./sort_gcc \
 		./sort_llvm \
 		./sort_go \
