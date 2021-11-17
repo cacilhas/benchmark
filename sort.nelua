@@ -1,0 +1,57 @@
+require 'io'
+require 'math'
+require 'os'
+require 'span'
+require 'string'
+
+local POPULATION: integer <comptime, const> = 100
+
+math.randomseed(os.time())
+
+local function qsort(data: span(integer), length: integer): void
+  if length < 2 then return end
+  local pivot: integer = data[0]
+  local left_index: integer
+  local right_index: integer
+  local left: [POPULATION]integer
+  local right: [POPULATION]integer
+  for i = 0, <length do
+    if i > 0 then
+      local value: integer = data[i]
+      if value < pivot then
+        left[left_index] = value
+        left_index = left_index + 1
+      else
+        right[right_index] = value
+        right_index = right_index + 1
+      end
+    end
+  end
+  qsort(&left, left_index)
+  qsort(&right, right_index)
+  local i: integer
+  for j = 0, <left_index do
+    data[i] = left[j]
+    i = i + 1
+  end
+  data[i] = pivot
+  i = i + 1
+  for j = 0, <right_index do
+    data[i] = right[j]
+    i = i + 1
+  end
+end
+
+local data: [POPULATION]integer
+for i = 0, <POPULATION do
+  data[i] = math.random(0, 99)
+end
+
+qsort(&data, POPULATION)
+
+for i = 0, <POPULATION do
+  io.write(tostring(data[i]))
+  io.write('\t')
+end
+io.write('\n')
+io.flush()
