@@ -3,7 +3,7 @@ SOURCES = $(wildcard sort.*)
 .PHONY: all benchmark clean mrproper
 
 
-all: sort_gcc sort_llvm sort_go sort_ocaml sort_nelua
+all: sort_gcc sort_llvm sort_go sort_ocaml sort_nelua sort_moon.lua
 
 
 benchmark: all $(SOURCES)
@@ -17,7 +17,8 @@ benchmark: all $(SOURCES)
 		./sort.rb \
 		"lua ./sort.lua" \
 		"luajit ./sort.lua" \
-		./sort.moon
+		"lua ./sort_moon.lua" \
+		"luajit ./sort_moon.lua"
 
 
 clean:
@@ -25,7 +26,7 @@ clean:
 
 
 mrproper: clean
-	rm -f sort_gcc sort_llvm sort_go sort_ocaml
+	rm -f sort_gcc sort_llvm sort_go sort_ocaml sort_nelua sort_moon.lua
 
 
 sort_gcc: sort.c
@@ -42,3 +43,6 @@ sort_ocaml: sort.ml
 
 sort_nelua: sort.nelua
 	nelua -o $@ $<
+
+sort_moon.lua: sort.moon
+	moonc -o $@ $<
